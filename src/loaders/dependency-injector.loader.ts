@@ -1,6 +1,6 @@
 import Container from 'typedi';
 
-import LoggerInstance from './logger';
+import LoggerInstance from './logger.loader';
 
 export default ({ repositories }: { repositories: { name: string; repository: any }[] }) => {
   try {

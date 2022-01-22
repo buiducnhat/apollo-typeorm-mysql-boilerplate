@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { Task } from './Task';
+import { Task } from './task.entity';
 
 @ObjectType()
 @Entity()

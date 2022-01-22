@@ -1,11 +1,11 @@
 import express from 'express';
 
-import expressLoader from './express';
-import dependencyInjectorLoader from './dependencyInjector';
-import databaseLoader from './database';
-import Logger from './logger';
-import { Task } from '@src/entities/Task';
-import { Category } from '@src/entities/Category';
+import expressLoader from './express.loader';
+import dependencyInjectorLoader from './dependency-injector.loader';
+import databaseLoader from './database.loader';
+import Logger from './logger.loader';
+import { Task } from '@src/entities/task.entity';
+import { Category } from '@src/entities/category.entity';
 import { Server } from 'http';
 
 interface LoaderParams {

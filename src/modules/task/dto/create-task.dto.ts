@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql';
-import { Task } from '@src/entities/Task';
+import { Task } from '@src/entities/task.entity';
 
 @InputType()
 export class CreateTaskDto implements Partial<Task> {

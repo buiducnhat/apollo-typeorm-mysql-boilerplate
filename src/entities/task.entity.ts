@@ -7,7 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { Category } from './Category';
+import { Category } from './category.entity';
 
 export enum TaskStatus {
   PENDING = 'Pending',

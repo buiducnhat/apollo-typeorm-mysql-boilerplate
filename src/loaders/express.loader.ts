@@ -7,10 +7,10 @@ import { UnauthorizedError as JwtUnauthorizedError } from 'express-jwt';
 
 import config from '@src/config';
 import apiRoutes from '@src/api';
-import { CustomError, NotFoundException, UnauthorizedException } from '@src/utils/CustomError';
-import LoggerInstance from './logger';
+import { CustomError, NotFoundException, UnauthorizedException } from '@src/utils/error.util';
+import LoggerInstance from './logger.loader';
 import { HttpCode, HttpStatus } from '@src/config/constants';
-import graphQlLoader from './graphql';
+import graphQlLoader from './graphql.loader';
 
 interface ExpressLoaderParams {
   app: express.Application;

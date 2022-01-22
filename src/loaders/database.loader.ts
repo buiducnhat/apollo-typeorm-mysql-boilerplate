@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
 
 import { getConnectionOptionByName } from '@src/config/ormconfig';
-import Logger from './logger';
+import Logger from './logger.loader';
 
 const dbConnection = {
   async create() {

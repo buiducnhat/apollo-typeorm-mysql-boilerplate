@@ -16,7 +16,7 @@ export const HttpStatus = {
 };
 
 export const HttpCode = {
-  SUCCESS: 'Success',
+  SUCCESS: 'SUCCESS',
   BAD_REQUEST: 'INVALID_INPUT',
   UNAUTHORIZED: 'UNAUTHORIZED',
   FORBIDDEN: 'FORBIDDEN',

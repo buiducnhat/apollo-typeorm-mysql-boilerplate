@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql';
-import { Category } from '@src/entities/Category';
+import { Category } from '@src/entities/category.entity';
 
 @InputType()
 export class CreateCategoryDto implements Partial<Category> {

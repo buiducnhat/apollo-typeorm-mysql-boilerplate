@@ -1,6 +1,6 @@
 import { NextFunction } from 'express';
 
-import Logger from '@src/loaders/logger';
+import Logger from '@src/loaders/logger.loader';
 
 export const urlRegex = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/;
 

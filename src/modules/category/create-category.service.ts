@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { Arg, Mutation, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 
-import { Category } from '@src/entities/Category';
+import { Category } from '@src/entities/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Service()
