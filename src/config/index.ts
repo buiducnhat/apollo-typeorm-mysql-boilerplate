@@ -13,6 +13,7 @@ export default {
   /**
    * Server config
    */
+  host: process.env.HOST,
   port: parseInt(process.env.PORT, 10),
 
   /**

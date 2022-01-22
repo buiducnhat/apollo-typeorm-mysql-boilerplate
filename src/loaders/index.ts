@@ -1,4 +1,5 @@
 import express from 'express';
+import { Server } from 'http';
 
 import expressLoader from './express.loader';
 import dependencyInjectorLoader from './dependency-injector.loader';
@@ -6,7 +7,6 @@ import databaseLoader from './database.loader';
 import Logger from './logger.loader';
 import { Task } from '@src/entities/task.entity';
 import { Category } from '@src/entities/category.entity';
-import { Server } from 'http';
 
 interface LoaderParams {
   expressApp: express.Application;

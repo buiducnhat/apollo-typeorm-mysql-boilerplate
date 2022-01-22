@@ -3,10 +3,9 @@ import { Container } from 'typedi';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { Server } from 'http';
-
-import { GetCategories } from '@src/modules/category/get-categories.service';
-import { CreateCategory } from '@src/modules/category/create-category.service';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+
+import { CategoryResolver } from '@src/modules/category/category.resolver';
 
 interface GraphQLLoaderParams {
   app: express.Application;
@@ -16,7 +15,7 @@ interface GraphQLLoaderParams {
 export default async ({ app, httpServer }: GraphQLLoaderParams) => {
   const schema = await buildSchema({
     container: Container,
-    resolvers: [CreateCategory, GetCategories],
+    resolvers: [CategoryResolver],
   });
 
   const server = new ApolloServer({

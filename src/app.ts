@@ -13,11 +13,8 @@ export async function startServer() {
   await loaders({ expressApp: app, httpServer });
 
   httpServer.listen(config.port, () => {
-    Logger.info(`✅ Everthing is ready.
-      #####################################
-      🚀  Server listening on port: ${config.port} 🚀
-      #####################################
-    `);
+    Logger.info(`✅ Everthing is ready`);
+    Logger.info(`🚀 Graphql Server is running at ${config.host}/graphql 🚀`);
   });
 }
 
