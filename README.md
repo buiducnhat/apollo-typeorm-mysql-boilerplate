@@ -1,4 +1,4 @@
-# Boilerplate for NodeJs with Express, Typeorm, Mysql (using Typescript)
+# Boilerplate for NodeJs with Express, Apollo Server, Typeorm, Mysql
 
 This is a base source code for continue developing other project.
 
@@ -11,9 +11,10 @@ The entities current has: User. All of theme have only some sample fields and re
 ## Main tech
 
 - `Node.js` with `NPM`, `yarn` for dependencies management.
-- `Express` framework for building a RESTful API server
+- `Express` framework for building API server.
+- `Apollo Server` for building graphql server.
 - `Typeorm` for work easier with database
-- `Mysql`
+- `Mysql`: (can easily replace with other RDBMS)
 - `Typescript` language (support build to js files with absolute path)
 - `Winston` for logger (already installed with Vietnamese timezone)
 
@@ -24,15 +25,15 @@ The entities current has: User. All of theme have only some sample fields and re
 ### Clone repository
 
 ```
-git clone git@github.com:gerpann/gerpan-express-typeorm-boilerplate.git
+git clone git@github.com:gerpann/apollo-typeorm-mysql-boilerplate.git
 ```
 
 ### Prepare
 
-I used `node` version `14.17.0` (The `lts` version at the time I write this), but you can also install other `lts` version
+I used `node` version `16.13.0` (The `lts` version at the time I write this), but you can also install other `lts` version
 
 ```
-nvm install 14.9.0
+nvm install 17.0.1
 ```
 
 or
@@ -88,77 +89,4 @@ yarn migration:generate
 
 ```
 yarn migration:run
-```
-
----
-
-## Project Structure
-
-```
-gerpan-express-typeorm-boilerplate
-.
-├── .circleci
-├── .env.example
-├── .prettierrc
-├── .prettierignore
-├── .gitignore
-├── LICENSE
-├── nodemon.json
-├── package.json
-├── README.md
-├── tsconfig.json
-├── yarn.lock
-├── src
-│   ├── api
-│   │   ├── middlewares
-│   │   ├── routes
-│   │   └── index.ts
-│   ├── config
-│   │   ├── index.ts
-│   │   └── ormconfig.ts
-│   ├── decorators
-│   ├── entity
-│   ├── interfaces
-│   ├── jobs
-│   ├── loaders
-│   │   ├── database.ts
-│   │   ├── dependencyInjector.ts
-│   │   ├── events.ts
-│   │   ├── express.ts
-│   │   ├── index.ts
-│   │   └── logger.ts
-│   ├── migration
-│   ├── services
-│   ├── subcribers
-│   ├── types
-│   ├── utils
-│   └── app.ts
-└── tests
-```
-
----
-
-## API Validation
-
-By using [celebrate](https://github.com/arb/celebrate), the req.body schema becomes cleary defined at route level, so even frontend devs can read what an API endpoint expects without needing to write documentation that can get outdated quickly.
-
-```js
-  signUp: celebrate({
-    body: Joi.object({
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().min(8).required(),
-    }),
-  }),
-```
-
-**Example error**
-
-```json
-{
-  "errors": {
-    "message": "child \"email\" fails because [\"email\" is required]"
-  }
-}
 ```
