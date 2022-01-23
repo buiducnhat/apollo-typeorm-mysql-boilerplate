@@ -7,6 +7,8 @@ import databaseLoader from './database.loader';
 import Logger from './logger.loader';
 import { Task } from '@src/entities/task.entity';
 import { Category } from '@src/entities/category.entity';
+import { User } from '@src/entities/user.entity';
+import { UserMeta } from '@src/entities/user-meta.entity';
 
 interface LoaderParams {
   expressApp: express.Application;
@@ -21,7 +23,7 @@ export default async ({ expressApp, httpServer }: LoaderParams) => {
   Logger.info('✅ DB loaded and connected.');
 
   await dependencyInjectorLoader({
-    repositories: [Task, Category].map(e => ({
+    repositories: [User, UserMeta, Task, Category].map(e => ({
       name: e.name.charAt(0).toLowerCase() + e.name.slice(1) + 'Repository',
       repository: connection.manager.getRepository(e),
     })),
