@@ -6,7 +6,6 @@ import { isCelebrateError, CelebrateError } from 'celebrate';
 import { UnauthorizedError as JwtUnauthorizedError } from 'express-jwt';
 
 import config from '@src/config';
-import apiRoutes from '@src/api';
 import { CustomError, NotFoundException, UnauthorizedException } from '@src/utils/error.util';
 import LoggerInstance from './logger.loader';
 import { HttpCode, HttpStatus } from '@src/config/constants';
@@ -39,8 +38,6 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
   // Middleware that transforms the raw string of req.body into json
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
-  app.use(config.api.prefix, apiRoutes());
 
   // httpServer = http.createServer(app);
   await graphQlLoader({ app, httpServer });
