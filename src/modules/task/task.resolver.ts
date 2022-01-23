@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 
-import { Task, TaskStatus } from '@src/entities/task.entity';
+import { Task } from '@src/entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { Category } from '@src/entities/category.entity';
 
@@ -18,16 +18,10 @@ export class TaskResolver {
   public async createTask(@Arg('data') inputData: CreateTaskDto): Promise<Task> {
     const category = await this.categoryRepository.findOne(inputData.categoryId);
     if (!category) {
-      console.log('error: category not found');
+      throw new Error('Category not found');
     }
 
-    const task = new Task();
-    task.title = inputData.title;
-    task.content = inputData.content;
-    task.status = TaskStatus.PENDING;
-    task.expiredTime = inputData.expiredTime;
-    task.image = inputData.image;
-    task.category = category;
+    const task = this.taskRepository.create({ ...inputData, category });
 
     const result = await this.taskRepository.save(task);
     return result;

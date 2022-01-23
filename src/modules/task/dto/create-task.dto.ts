@@ -1,8 +1,7 @@
-import { Field, InputType } from 'type-graphql';
-import { Task } from '@src/entities/task.entity';
+import { Field, InputType, Int } from 'type-graphql';
 
 @InputType()
-export class CreateTaskDto implements Partial<Task> {
+export class CreateTaskDto {
   @Field()
   public title!: string;
 
@@ -15,6 +14,6 @@ export class CreateTaskDto implements Partial<Task> {
   @Field({ nullable: true })
   public expiredTime?: Date;
 
-  @Field()
+  @Field(() => Int)
   public categoryId?: number;
 }

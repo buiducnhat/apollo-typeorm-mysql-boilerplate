@@ -8,6 +8,7 @@ import {
   RelationId,
 } from 'typeorm';
 import { Field, Int, ObjectType } from 'type-graphql';
+
 import { Category } from './category.entity';
 
 export enum TaskStatus {
@@ -19,7 +20,7 @@ export enum TaskStatus {
 @ObjectType()
 @Entity()
 export class Task {
-  @Field(() => Number)
+  @Field(() => Int)
   @PrimaryGeneratedColumn()
   public readonly id: number;
 
@@ -50,8 +51,6 @@ export class Task {
   @Field(() => Category)
   @ManyToOne(() => Category, category => category.tasks)
   public category!: Category;
-
-  @Field(() => Int)
   @RelationId((task: Task) => task.category)
   public categoryId!: number;
 
