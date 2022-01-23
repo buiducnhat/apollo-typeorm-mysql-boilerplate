@@ -49,7 +49,6 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
     next(new NotFoundException('Url not found'));
   });
 
-  // Custom Error Handler
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof CustomError) {
       LoggerInstance.error(`[${err.status}/${err.name}] - ${err.code} - ${err.message}`);
@@ -65,44 +64,6 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
     return next(err);
   });
 
-  // Handle 400 Request Validation Error. (thrown by Celebrate)
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (isCelebrateError(err)) {
-      const messages = [];
-      (err as CelebrateError).details.forEach((v, k) => {
-        messages.push(`[${k}] ${v.message}.`);
-      });
-      const message = messages.join('\n');
-      const code = HttpCode.BAD_REQUEST;
-      const status = HttpStatus.BAD_REQUEST;
-
-      LoggerInstance.error(`[${status}/Celebrate] - ${code} - ${message}`);
-      return res.status(status).json({
-        status,
-        message,
-        error: code,
-      });
-    }
-    return next(err);
-  });
-
-  // Handle 401 Authorization Error (thrown by express-jwt or custom)
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof JwtUnauthorizedError || UnauthorizedException) {
-      const code = HttpCode.UNAUTHORIZED;
-      LoggerInstance.error(
-        `[${HttpStatus.UNAUTHORIZED}/${err.name || 'Authorization'}] - ${code} - ${err.message}`,
-      );
-      return res.status(HttpStatus.UNAUTHORIZED).send({
-        status: HttpStatus.UNAUTHORIZED,
-        error: code,
-        message: err.message,
-      });
-    }
-    return next(err);
-  });
-
-  // Handle Generic Error
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     const message = 'Something went wrong. Please try again or contact support.';
     LoggerInstance.error(

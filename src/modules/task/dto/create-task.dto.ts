@@ -6,12 +6,15 @@ export class CreateTaskDto implements Partial<Task> {
   @Field()
   public title!: string;
 
-  @Field()
+  @Field({ nullable: true })
   public content?: string;
 
-  @Field()
+  @Field({ nullable: true })
   public image?: string;
 
-  @Field()
+  @Field({ nullable: true })
   public expiredTime?: Date;
+
+  @Field()
+  public categoryId?: number;
 }

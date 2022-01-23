@@ -6,6 +6,7 @@ import { Server } from 'http';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 
 import { CategoryResolver } from '@src/modules/category/category.resolver';
+import { TaskResolver } from '@src/modules/task/task.resolver';
 
 interface GraphQLLoaderParams {
   app: express.Application;
@@ -15,7 +16,7 @@ interface GraphQLLoaderParams {
 export default async ({ app, httpServer }: GraphQLLoaderParams) => {
   const schema = await buildSchema({
     container: Container,
-    resolvers: [CategoryResolver],
+    resolvers: [CategoryResolver, TaskResolver],
   });
 
   const server = new ApolloServer({

@@ -6,13 +6,13 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import { Task } from './task.entity';
 
 @ObjectType()
 @Entity()
 export class Category {
-  @Field()
+  @Field(() => Int)
   @PrimaryGeneratedColumn()
   public readonly id!: number;
 

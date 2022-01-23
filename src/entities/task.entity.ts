@@ -5,8 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  RelationId,
 } from 'typeorm';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import { Category } from './category.entity';
 
 export enum TaskStatus {
@@ -30,7 +31,7 @@ export class Task {
   @Column({ type: 'text', nullable: true })
   public content?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   public image?: string;
 
@@ -38,17 +39,21 @@ export class Task {
   @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.PENDING })
   public status: TaskStatus;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'datetime', nullable: true })
   public expiredTime?: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'datetime', nullable: true })
   public completeTime?: Date;
 
   @Field(() => Category)
   @ManyToOne(() => Category, category => category.tasks)
   public category!: Category;
+
+  @Field(() => Int)
+  @RelationId((task: Task) => task.category)
+  public categoryId!: number;
 
   @Field()
   @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP(6)' })
