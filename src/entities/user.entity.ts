@@ -4,12 +4,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   RelationId,
   OneToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Field, Int, ObjectType } from 'type-graphql';
+
 import { UserMeta } from './user-meta.entity';
 import { Task } from './task.entity';
 
@@ -45,7 +46,8 @@ export class User {
   public password: string;
 
   @Field(() => UserMeta)
-  @OneToOne(() => UserMeta, meta => meta.user)
+  @OneToOne(() => UserMeta, meta => meta.user, { cascade: true })
+  @JoinColumn()
   public meta!: UserMeta;
   @RelationId((user: User) => user.meta)
   public metaId!: number;
