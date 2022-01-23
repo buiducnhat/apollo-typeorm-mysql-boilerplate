@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { Algorithm as IJWTAlgorithm } from 'jsonwebtoken';
 
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -39,5 +40,40 @@ export default {
    */
   api: {
     prefix: '/api',
+  },
+
+  /**
+   * Your secret sauce
+   */
+  jwt: {
+    jwtSecret: process.env.JWT_SECRET,
+    jwtAlgorithm: 'HS256' as IJWTAlgorithm,
+    jwtExpireTimeNormal: process.env.JWT_EXPIRE_NORMAL,
+    jwtExpireTimeLong: process.env.JWT_EXPIRE_LONG,
+  },
+
+  /**
+   * Google cloud key
+   */
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  },
+
+  /**
+   * Facebook key
+   */
+  facebook: {
+    appId: process.env.FACEBOOK_APP_ID,
+    secretKey: process.env.FACEBOOK_SECRET_KEY,
+  },
+  /**
+   * Cloudinary config
+   */
+  cloudinary: {
+    folder: process.env.CLOUDINARY_FOLDER,
+    name: process.env.CLOUDINARY_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
   },
 };
