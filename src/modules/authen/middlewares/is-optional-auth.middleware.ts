@@ -5,33 +5,30 @@ import { verify } from 'jsonwebtoken';
 import { Context } from '@src/types/context.interface';
 import config from '@src/config';
 import UserService from '@src/modules/user/user.service';
+import { User } from '@src/entities/user.entity';
 
-export const isAuth: MiddlewareFn<Context> = async ({ context }, next) => {
-  const authorization = context.req.headers['authorization'];
-
-  if (!authorization) {
-    throw new Error('Not authenticated');
-  }
+export const isOptionalAuth: MiddlewareFn<Context> = async ({ context }, next) => {
+  let user: User;
 
   try {
+    const authorization = context.req.headers['authorization'];
+    if (!authorization) {
+      return;
+    }
     const bearerToken = authorization.split('Bearer ');
     if (bearerToken.length < 1) {
-      throw new Error('Invalid token');
+      return;
     }
     const token = bearerToken[1];
 
     const payload = verify(token, config.jwt.jwtSecret) as { userId: number };
 
     const userService = Container.get(UserService);
-    const user = await userService.getUser(payload?.userId);
-    if (!user) {
-      throw new Error();
-    }
-
-    context.req.user = user;
-    context.req.hasPermission = true;
+    user = await userService.getUser(payload?.userId);
   } catch (err) {
-    throw new Error('Not authenticated');
+  } finally {
+    context.req.user = user || null;
+    context.req.hasPermission = true;
   }
   return next();
 };

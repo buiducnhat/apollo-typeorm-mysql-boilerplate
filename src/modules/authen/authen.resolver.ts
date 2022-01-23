@@ -14,6 +14,7 @@ import { randomBytes } from 'crypto';
 import { convertDto } from '@src/utils/common.util';
 import { UserMeta, UserRole } from '@src/entities/user-meta.entity';
 import { isAuth } from './middlewares/is-auth.middleware';
+import { isOptionalAuth } from './middlewares/is-optional-auth.middleware';
 
 @Service()
 @Resolver(() => User)
