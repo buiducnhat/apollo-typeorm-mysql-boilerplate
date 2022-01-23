@@ -10,6 +10,7 @@ import {
 import { Field, Int, ObjectType } from 'type-graphql';
 
 import { Category } from './category.entity';
+import { User } from './user.entity';
 
 export enum TaskStatus {
   PENDING = 'Pending',
@@ -53,6 +54,12 @@ export class Task {
   public category!: Category;
   @RelationId((task: Task) => task.category)
   public categoryId!: number;
+
+  @Field(() => User)
+  @ManyToOne(() => User, user => user.tasks)
+  public user!: User;
+  @RelationId((task: Task) => task.user)
+  public userId!: number;
 
   @Field()
   @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP(6)' })
