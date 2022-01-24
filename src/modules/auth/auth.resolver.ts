@@ -1,5 +1,5 @@
 import { Service, Inject } from 'typedi';
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
@@ -13,21 +13,20 @@ import { RegisterInputDto, RegisterResponseDto } from './dto/register.dto';
 import { randomBytes } from 'crypto';
 import { convertDto } from '@src/utils/common.util';
 import { UserMeta, UserRole } from '@src/entities/user-meta.entity';
-import { isAuth } from './middlewares/is-auth.middleware';
-import { isOptionalAuth } from './middlewares/is-optional-auth.middleware';
+import { AuthGuard } from './guards/auth.guard';
 
 @Service()
 @Resolver(() => User)
-export class AuthenticationResolver {
+export class AuthResolver {
   constructor(
     @Inject('userRepository') private userRepository: Repository<User>,
     @Inject('userMetaRepository') private userMetaRepository: Repository<UserMeta>,
   ) {}
 
   @Query(() => User)
-  @UseMiddleware(isAuth)
-  public async me(@Ctx() { req }: Context): Promise<User> {
-    return req.user;
+  @AuthGuard()
+  public async me(@Ctx() { user }: Context): Promise<User> {
+    return user;
   }
 
   @Mutation(() => LoginResponseDto)

@@ -6,7 +6,7 @@ import { Server } from 'http';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import passport from 'passport';
 
-import { AuthenticationResolver } from '@src/modules/authen/authen.resolver';
+import { AuthResolver } from '@src/modules/auth/auth.resolver';
 import { CategoryResolver } from '@src/modules/category/category.resolver';
 import { TaskResolver } from '@src/modules/task/task.resolver';
 
@@ -18,7 +18,7 @@ interface GraphQLLoaderParams {
 export default async ({ app, httpServer }: GraphQLLoaderParams) => {
   const schema = await buildSchema({
     container: Container,
-    resolvers: [AuthenticationResolver, CategoryResolver, TaskResolver],
+    resolvers: [AuthResolver, CategoryResolver, TaskResolver],
   });
 
   const server = new ApolloServer({

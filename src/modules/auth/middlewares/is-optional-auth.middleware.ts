@@ -27,8 +27,8 @@ export const isOptionalAuth: MiddlewareFn<Context> = async ({ context }, next) =
     user = await userService.getUser(payload?.userId);
   } catch (err) {
   } finally {
-    context.req.user = user || null;
-    context.req.hasPermission = true;
+    context.user = user || null;
+    context.hasPermission = true;
   }
   return next();
 };

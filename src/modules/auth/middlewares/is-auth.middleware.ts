@@ -28,10 +28,10 @@ export const isAuth: MiddlewareFn<Context> = async ({ context }, next) => {
       throw new Error();
     }
 
-    context.req.user = user;
-    context.req.hasPermission = true;
-  } catch (err) {
-    throw new Error('Not authenticated');
+    context.user = user;
+    context.hasPermission = true;
+  } catch (error) {
+    throw new Error('Unauthenticated');
   }
   return next();
 };
