@@ -10,6 +10,7 @@ import { CustomError, NotFoundException, UnauthorizedException } from '@src/util
 import LoggerInstance from './logger.loader';
 import { HttpCode, HttpStatus } from '@src/config/constants';
 import graphQlLoader from './graphql.loader';
+import authController from '@src/modules/auth/auth.controller';
 
 interface ExpressLoaderParams {
   app: express.Application;
@@ -35,6 +36,9 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
   // Middleware that transforms the raw string of req.body into json
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  // REST Api
+  app.use(`${config.api.prefix}/auth`, authController);
 
   // httpServer = http.createServer(app);
   await graphQlLoader({ app, httpServer });
