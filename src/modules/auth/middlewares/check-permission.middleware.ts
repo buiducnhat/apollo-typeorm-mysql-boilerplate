@@ -1,4 +1,5 @@
 import { MiddlewareFn } from 'type-graphql';
+import { ForbiddenError } from 'apollo-server-express';
 
 import { Context } from '@src/types/context.interface';
 import { UserRole } from '@src/entities/user-meta.entity';
@@ -17,6 +18,6 @@ export const checkPermission =
       }
       return next();
     } catch (error) {
-      throw new Error('Forbidden');
+      throw new ForbiddenError('Forbidden');
     }
   };

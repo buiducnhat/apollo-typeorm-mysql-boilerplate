@@ -10,6 +10,7 @@ import { AuthResolver } from '@src/modules/auth/auth.resolver';
 import { CategoryResolver } from '@src/modules/category/category.resolver';
 import { TaskResolver } from '@src/modules/task/task.resolver';
 import { ErrorInterceptor } from '@src/interceptors/error.interceptor';
+import config from '@src/config';
 
 interface GraphQLLoaderParams {
   app: express.Application;
@@ -26,12 +27,11 @@ export default async ({ app, httpServer }: GraphQLLoaderParams) => {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }) => ({ req, res, passport }),
-    debug: true,
     introspection: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app, path: `${config.api.prefix}/graphql` });
 
   return server;
 };

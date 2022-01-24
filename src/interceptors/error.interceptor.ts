@@ -9,10 +9,7 @@ export const ErrorInterceptor: MiddlewareFn<Context> = async ({ context, info },
   try {
     return await next();
   } catch (err) {
-    logger.error(err, context, info);
-    if (err.includes('sql')) {
-      throw new Error('Internal server error');
-    }
+    logger.error(`[${info.fieldName}]:`, err);
 
     throw err;
   }

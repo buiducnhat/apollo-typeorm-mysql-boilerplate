@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "build": "rm -rf dist && ttsc -p tsconfig.json",
-    "start:prod": "npm run build && NODE_ENV=production node dist/src/app.js",
+    "start:prod": "NODE_ENV=production node dist/src/app.js",
     "start:dev": "nodemon --inspect src/app.ts",
     "test": "jest",
     "format": "prettier --write .",
