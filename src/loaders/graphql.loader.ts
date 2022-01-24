@@ -9,6 +9,7 @@ import passport from 'passport';
 import { AuthResolver } from '@src/modules/auth/auth.resolver';
 import { CategoryResolver } from '@src/modules/category/category.resolver';
 import { TaskResolver } from '@src/modules/task/task.resolver';
+import { ErrorInterceptor } from '@src/interceptors/error.interceptor';
 
 interface GraphQLLoaderParams {
   app: express.Application;
@@ -19,6 +20,7 @@ export default async ({ app, httpServer }: GraphQLLoaderParams) => {
   const schema = await buildSchema({
     container: Container,
     resolvers: [AuthResolver, CategoryResolver, TaskResolver],
+    globalMiddlewares: [ErrorInterceptor],
   });
 
   const server = new ApolloServer({

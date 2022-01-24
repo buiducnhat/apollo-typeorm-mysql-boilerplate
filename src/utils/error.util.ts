@@ -5,7 +5,12 @@ export class CustomError extends Error {
   code: string;
   name: string;
 
-  constructor(name = 'Error', code = HttpCode.GENERIC, status = HttpStatus.GENERIC, ...params) {
+  constructor(
+    name = 'Error',
+    code = HttpCode.INTERNAL_SERVER_ERROR,
+    status = HttpStatus.GENERIC,
+    ...params
+  ) {
     super(...params);
 
     if (Error.captureStackTrace) {
@@ -43,6 +48,6 @@ export class NotFoundException extends CustomError {
 
 export class GenericException extends CustomError {
   constructor(name = 'Error', ...params) {
-    super(name, HttpCode.GENERIC, HttpStatus.GENERIC, ...params);
+    super(name, HttpCode.INTERNAL_SERVER_ERROR, HttpStatus.GENERIC, ...params);
   }
 }

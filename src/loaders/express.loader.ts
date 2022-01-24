@@ -64,12 +64,12 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     const message = 'Something went wrong. Please try again or contact support.';
     LoggerInstance.error(
-      `[${HttpStatus.GENERIC}/Generic] - ${HttpCode.GENERIC} - ${err || message}`,
+      `[${HttpStatus.GENERIC}/Generic] - ${HttpCode.INTERNAL_SERVER_ERROR} - ${err || message}`,
     );
     res.status(500).json({
       status: HttpStatus.GENERIC,
       message,
-      error: HttpCode.GENERIC,
+      error: HttpCode.INTERNAL_SERVER_ERROR,
     });
     next();
   });
