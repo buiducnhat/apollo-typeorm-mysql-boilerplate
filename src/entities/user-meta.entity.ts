@@ -39,6 +39,14 @@ export class UserMeta {
   @OneToOne(() => User, user => user.meta)
   public user!: User;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  public googleId?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  public facebookId?: string;
+
   @Field()
   @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP(6)' })
   public readonly createdAt: Date;

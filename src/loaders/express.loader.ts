@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import http from 'http';
 import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
@@ -38,7 +38,9 @@ export default async ({ app, httpServer }: ExpressLoaderParams) => {
   app.use(express.urlencoded({ extended: true }));
 
   // REST Api
-  app.use(`${config.api.prefix}/auth`, authController);
+  const router = Router();
+  app.use(config.api.prefix, router);
+  router.use('/auth', authController);
 
   // httpServer = http.createServer(app);
   await graphQlLoader({ app, httpServer });

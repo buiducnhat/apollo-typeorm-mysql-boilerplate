@@ -1,27 +1,30 @@
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
-import * as jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
 import * as _ from 'lodash';
 
 import { User } from '@src/entities/user.entity';
 import { Context } from '@src/types/context.interface';
 import { LoginInputDto, LoginResponseDto } from './dto/login.dto';
-import config from '@src/config';
 import { RegisterInputDto, RegisterResponseDto } from './dto/register.dto';
 import { randomBytes } from 'crypto';
 import { convertDto } from '@src/utils/common.util';
 import { UserMeta, UserRole } from '@src/entities/user-meta.entity';
 import { AuthGuard } from './guards/auth.guard';
+import AuthService from './auth.service';
 
 @Service()
 @Resolver(() => User)
 export class AuthResolver {
+  authService: AuthService;
+
   constructor(
     @Inject('userRepository') private userRepository: Repository<User>,
     @Inject('userMetaRepository') private userMetaRepository: Repository<UserMeta>,
-  ) {}
+  ) {
+    this.authService = Container.get(AuthService);
+  }
 
   @Query(() => User)
   @AuthGuard()
@@ -48,7 +51,7 @@ export class AuthResolver {
     }
 
     return {
-      token: this._generateJWT(user, loginInputDto.remember),
+      token: this.authService.generateJWT(user, loginInputDto.remember),
       user: _.omit(user, ['password']),
     };
   }
@@ -57,7 +60,7 @@ export class AuthResolver {
   public async register(
     @Arg('data') registerInputDto: RegisterInputDto,
   ): Promise<RegisterResponseDto> {
-    if (await this._checkExistUser(registerInputDto.email)) {
+    if (await this.authService.checkExistUser(registerInputDto.email)) {
       throw Error('This email already exists');
     }
 
@@ -82,30 +85,8 @@ export class AuthResolver {
       throw Error('Internal server error');
     }
     return {
-      token: this._generateJWT(user),
+      token: this.authService.generateJWT(user),
       user: _.omit(user, ['password']),
     };
-  }
-
-  private async _checkExistUser(email: string): Promise<boolean> {
-    const userCount = await this.userRepository
-      .createQueryBuilder('user')
-      .where('user.email = :email', { email: email })
-      .getCount();
-
-    return userCount > 0;
-  }
-
-  private _generateJWT(user: Partial<User>, isLongExpire = false): string {
-    return jwt.sign(
-      {
-        userId: user.id,
-      },
-      config.jwt.jwtSecret,
-      {
-        algorithm: config.jwt.jwtAlgorithm,
-        expiresIn: isLongExpire ? config.jwt.jwtExpireTimeLong : config.jwt.jwtExpireTimeNormal,
-      },
-    );
   }
 }

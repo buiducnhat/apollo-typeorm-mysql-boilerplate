@@ -29,9 +29,9 @@ export class User {
   @Column({ length: 100 })
   public lastName!: string;
 
-  @Field()
-  @Column()
-  public email: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  public email?: string;
 
   @Field({ nullable: true })
   @Column({ length: 15, nullable: true })
@@ -41,9 +41,9 @@ export class User {
   @Column({ nullable: true })
   public avatar?: string;
 
-  @Field()
-  @Column()
-  public password: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  public password?: string;
 
   @Field(() => UserMeta)
   @OneToOne(() => UserMeta, meta => meta.user, { cascade: true })
